@@ -27,7 +27,7 @@ public class flowLogMetrics {
     public static void main(String[] args) throws IOException {
 
         String flowLogFilePath = "files/flow_logs.txt"; 
-        String lookupTableFilePath = "files/lookup_table.csv"; 
+        String lookupTableFilePath = "files/lookup_table.txt"; 
         String protocolListFilePath = "files/protocol_list.csv";
 
         flowLogMetrics tagger = new flowLogMetrics();
@@ -76,13 +76,7 @@ public class flowLogMetrics {
     public void loadLookupTable(String lookupTableFilePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(lookupTableFilePath))) {
             String line;
-            boolean firstLine = true;
             while ((line = reader.readLine()) != null) {
-
-                if (firstLine) {
-                    firstLine = false;
-                    continue;
-                }
 
                 if (line.trim().isEmpty()) {
                     continue;
@@ -138,10 +132,10 @@ public class flowLogMetrics {
                 }
 
                 int convertedProtocolNum = strToInt(protocolNum);
-                if (convertedProtocolNum > 146 && convertedProtocolNum <= 255) {
+                if (convertedProtocolNum > 146 || convertedProtocolNum <= 255) {
                     convertedProtocolNum = 146;
                 }
-                if (convertedProtocolNum < 0 || convertedProtocolNum >= 146) {
+                if (convertedProtocolNum < 0 || convertedProtocolNum > 146) {
                     System.err.println("Invalid Protocol Number: (Invalid Protocol Number) " + line);
                     continue;
                 }
