@@ -32,6 +32,8 @@ public class flowLogMetrics {
 
         flowLogMetrics tagger = new flowLogMetrics();
 
+        
+
         System.out.println("Intializaing Protocol Name Mapping...");
         tagger.initializeProtocolMap(protocolListFilePath);
 
@@ -122,7 +124,7 @@ public class flowLogMetrics {
                     continue;
                 }
 
-                String dstPort = parts[5].trim();
+                String dstPort = parts[6].trim();
                 String protocolNum = parts[7].trim();
                 
                 int convertedDstPort = strToInt(dstPort);
