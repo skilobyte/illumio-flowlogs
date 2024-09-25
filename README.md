@@ -2,13 +2,11 @@
 
 ## Instructions to run the program
 
-1. Navigate to the project directory:
-`cd illumio-flowlogs`
+1. Navigate to the project directory: `cd illumio-flowlogs`
 
-2. Compile the program using javac
-`javac flowLogMetrics.java`
+2. Compile the program using javac: `javac flowLogMetrics.java`
 
-3. Run the program:`java flowLogMetrics flowlog-filename lookup-filename`
+3. Run the program with requried parameters: `java flowLogMetrics flowlog-filename lookup-filename`
 
 - flowlog-filename: The file containing the flow logs. (e.g., `files/flow_logs.txt`)
 - lookup-filename: The lookup table file for mapping destination ports and protocols to tags. (e.g., `files/lookup_table .txt`)
@@ -20,14 +18,14 @@
 
 ## Assumptions
 ### Protocol Number to Protocol Name translation
-1. Protocol names are defined using the protocol keywords listed on the IANA website [here](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
+1. Protocol names are defined using the protocol keywords listed on the [IANA website ](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
 
-2. "unknown" will be used as the protocol name if the protocol number does not have a corresponding protocol keyword listed on the IANA website.
+2. `"unknown"` will be used as the protocol name if the protocol number does not have a corresponding protocol keyword listed on the IANA website.
 
 ### Flow Log File
 1. The flow log file is in `.txt` format and contains no headers.
 
-2. Each flow log record strictly adheres to the following specified format with space as the delimiter:
+2. Each flow log record strictly adheres to the following specified format with a single space as the delimiter:
 `version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status`
 
 3. A valid log record must follow the four rules:
