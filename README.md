@@ -8,21 +8,23 @@
 2. Compile the program using javac
 `javac flowLogMetrics.java`
 
-3. Run the program with the required arguments:
-`java flowLogMetrics <flowlog-filename>.txt <lookup-filename>.txt`
-<flowlog-filename>.txt: The file containing the flow logs.
-<lookup-filename>.txt: The lookup table file for mapping destination ports and protocols to tags.
+3. Run the program:`java flowLogMetrics flowlog-filename lookup-filename`
 
-## output 
+- flowlog-filename: The file containing the flow logs. (e.g., `files/flow_logs.txt`)
+- lookup-filename: The lookup table file for mapping destination ports and protocols to tags. (e.g., `files/lookup_table .txt`)
+
+## Output 
 - The tag counts will be saved in: `output/tag.csv`
 - The counts of each port/protocol combination will be saved in: `output/port-protocol.csv`
 - Any invalid input lines encountered during processing will be recorded in: `output/error_log.txt`
-## Protocol Number to Protocol Name translation
+
+## Assumptions
+### Protocol Number to Protocol Name translation
 1. Protocol names are defined using the protocol keywords listed on the IANA website [here](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
 
-3. "unknown" will be used as the protocol name if the protocol number does not have a corresponding protocol keyword listed on the IANA website.
+2. "unknown" will be used as the protocol name if the protocol number does not have a corresponding protocol keyword listed on the IANA website.
 
-## Flow Log File Assumptions
+### Flow Log File
 1. The flow log file is in `.txt` format and contains no headers.
 
 2. Each flow log record strictly adheres to the following specified format with space as the delimiter:
@@ -38,7 +40,7 @@
 
 5. Any line that does not conform to the valid log record format will be ignored and logged to the `error_log.txt` file as an invalid log record. (Empty lines are ignored)
 
-## Lookup Table File
+### Lookup Table File
 1. The lookup table file is in `.txt` format and contains no headers. The records are strictly in `port,protcol,tag` with `,` as the delimiter.
 
 2. If a unique `dstport` and `protocol` combination is mapped to two different tags, both tags are valid. For example:
