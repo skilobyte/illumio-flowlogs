@@ -27,8 +27,8 @@
 
 - Log records with additional or missing fields, as well as records with inconsistent delimiters.
 - Log records containing out-of-range values for `dstport` and `protocol`.
-- Lookup table entries with missing or extra fields and inconsistent delimiters.
-- Lookup records with protocol names that did not match the IANA standard and out-of-range port numbers.
+- Lookup table records with missing or extra fields and inconsistent delimiters.
+- Lookup table records with protocol names that did not match the IANA standard and out-of-range port numbers.
 
 
 ## Assumptions
