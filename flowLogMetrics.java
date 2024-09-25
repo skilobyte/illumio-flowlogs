@@ -32,9 +32,10 @@ public class flowLogMetrics {
         String flowLogFilePath = args[0];
         String lookupTableFilePath = args[1];
         String protocolListFilePath = "files/protocol_list.csv";
-
+        
         flowLogMetrics tagger = new flowLogMetrics();
 
+        tagger.setupErrorLogging("output/error_log.txt");
         System.out.println("Intializaing Protocol Name Mapping...");
         tagger.initializeProtocolMap(protocolListFilePath);
 
@@ -209,5 +210,14 @@ public class flowLogMetrics {
             number = -1;
         }
         return number;
+    }
+
+    public void setupErrorLogging(String logFilePath) {
+        try {
+            PrintStream errorLog = new PrintStream(new FileOutputStream(logFilePath, true));
+            System.setErr(errorLog);
+        } catch (FileNotFoundException e) {
+            System.err.println("Could not set up error logging to file: " + e.getMessage());
+        }
     }
 }
