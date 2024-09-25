@@ -54,7 +54,7 @@
 5. Any line that does not conform to the valid log record format will be ignored and logged to the `error_log.txt` file as an invalid log record. (Empty lines are ignored)
 
 ### Lookup Table File
-1. The lookup table file is in `.txt` format and contains no headers. The records are strictly in `port,protcol,tag` with `,` as the delimiter.
+1. The lookup table file is in `.txt` format and contains no headers. The records are strictly in `port,protocol,tag` with `,` as the delimiter.
 
 2. If a unique `dstport` and `protocol` combination is mapped to two different tags, both tags are valid. For example:
 ```
@@ -65,7 +65,7 @@ Each matching log record will affect both tag counts.
 
 4. The valid range for ports is 0 to 65535. Any record with an out-of-range `dstport` value is ignored and logged to the `error_log.txt` file as an invalid lookup table record.
 
-5. Protocol names in the lookup table file must be same as the IANA protocol keywords (e.g., `tcp`, `udp`, etc.). If they do not match to any IANA protocol keywords, the lookup table record is ignored and logged to `error_log.txt` file as invalid look up table record.
+5. Protocol names in the lookup table file must be same as the IANA protocol keywords (e.g., `tcp`, `udp`, etc.). If they do not match to any IANA protocol keywords, the lookup table record is ignored and logged to `error_log.txt` file as invalid lookup table record.
 
 6. Empty lines are ignored.
 
@@ -80,4 +80,4 @@ Example-2
 80,tcp,tag1
 80,tcp,TAG1
 ```
-Entries in Example-1 are treated as duplicate records. However, entries in Example-2 are treated as unique records.
+In Example-1, the input is treated as duplicate records. However, input from Example-2 is treated as unique records.
