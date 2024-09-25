@@ -1,7 +1,7 @@
-25,TCP, 
+25,TCP,sc_p1
 68,udp,sv_P2 
-23,tcp,sv_P9
-23,tcp,sv_P9
+23,tcp,sv_P2
+23,tcp,sv_P2
 31,udp,SV_P3 
 443,tcp,sv_P2 
 22,tcp,sv_P4 

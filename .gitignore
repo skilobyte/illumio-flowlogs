@@ -1,2 +1,2 @@
 *.class
-src/output/error_log.txt
+output/error_log.txt

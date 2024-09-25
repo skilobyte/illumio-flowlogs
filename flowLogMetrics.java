@@ -71,7 +71,7 @@ public class flowLogMetrics {
                 protocolMap.put(protocolNumber, protocolName);
             }
         } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
+            System.out.println("Error reading the file: " + e.getMessage());
         }
     }
 
@@ -110,7 +110,7 @@ public class flowLogMetrics {
                 lookupTable.get(portProtocolKey).add(tag);
             }
         } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
+            System.out.println("Error reading the file: " + e.getMessage());
         }
     }
 
@@ -168,7 +168,7 @@ public class flowLogMetrics {
                 }
             }
         } catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
+            System.out.println("Error reading the file: " + e.getMessage());
         }
     }
 
@@ -187,7 +187,7 @@ public class flowLogMetrics {
             }
 
         }catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
+            System.out.println("Error reading the file: " + e.getMessage());
         }
 
         try (PrintWriter writer = new PrintWriter(new FileWriter("output/port-protocol.csv"))) {
@@ -198,7 +198,7 @@ public class flowLogMetrics {
             }
 
         }catch (IOException e) {
-            System.err.println("Error reading the file: " + e.getMessage());
+            System.out.println("Error reading the file: " + e.getMessage());
         }
     }
 
@@ -217,7 +217,7 @@ public class flowLogMetrics {
             PrintStream errorLog = new PrintStream(new FileOutputStream(logFilePath, true));
             System.setErr(errorLog);
         } catch (FileNotFoundException e) {
-            System.err.println("Could not set up error logging to file: " + e.getMessage());
+            System.out.println("Could not set up error logging to file: " + e.getMessage());
         }
     }
 }
