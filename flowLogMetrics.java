@@ -68,6 +68,9 @@ public class flowLogMetrics {
 
                 String protocolNumber = parts[0].trim();
                 String protocolName = parts[1].trim().toLowerCase();
+                if(protocolName.isEmpty()){
+                    protocolName = "unknown";
+                }
                 protocolMap.put(protocolNumber, protocolName);
             }
         } catch (IOException e) {
@@ -86,13 +89,23 @@ public class flowLogMetrics {
 
                 String[] parts = line.split(",");
                 if (parts.length < 3) {
-                    System.err.println("Invalid lookup table entry: " + line);
+                    System.err.println("Invalid Lookup Table Entry: (Bad Format)" + line);
                     continue;
                 }
 
                 String dstPort = parts[0].trim();
                 String protocol = parts[1].trim().toLowerCase();
                 String tag = parts[2].trim();
+
+                int convertedProtocolNum = strToInt(dstPort);
+                if (convertedProtocolNum < 0 || convertedProtocolNum > 65535) {
+                    System.err.println("Invalid Lookup Table Entry: (Invalid Protocol Number) " + line);
+                    continue;
+                }
+
+                if(!protocolMap.containsValue(protocol)){
+                    System.err.println("Invalid Log Table Entry: (Invalid Protocol Name) " + line);
+                }
 
                 String portProtocolKey = dstPort + "," + protocol;
                 lookupTable.putIfAbsent(portProtocolKey, new HashSet<>());
@@ -120,7 +133,7 @@ public class flowLogMetrics {
 
                 String[] parts = line.split(" ");
                 if (parts.length < 14 || !(parts[0].equals("2") && logStatusValues.contains(parts[13].toLowerCase()))) {
-                    System.err.println("Invalid flow log entry: " + line);
+                    System.err.println("Invalid Flow Log Entry: (Bad Format) " + line);
                     continue;
                 }
 
@@ -129,16 +142,17 @@ public class flowLogMetrics {
                 
                 int convertedDstPort = strToInt(dstPort);
                 if(convertedDstPort < 0 || convertedDstPort >= 65535){
-                    System.err.println("Invalid Log Entry: (Port Number Out of Range) " + line);
+                    System.err.println("Invalid Flow Log Entry: (Port Number Out of Range) " + line);
                     continue;
                 }
-
+                
                 int convertedProtocolNum = strToInt(protocolNum);
-                if (convertedProtocolNum > 146 || convertedProtocolNum <= 255) {
+                if (convertedProtocolNum > 146 && convertedProtocolNum <= 255) {
                     convertedProtocolNum = 146;
                 }
+
                 if (convertedProtocolNum < 0 || convertedProtocolNum > 146) {
-                    System.err.println("Invalid Protocol Number: (Invalid Protocol Number) " + line);
+                    System.err.println("Invalid Flow Log Entry: (Invalid Protocol Number) " + line);
                     continue;
                 }
 

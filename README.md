@@ -1,6 +1,5 @@
 # illumio-flowlogs
 
-
 ## Flow Log File
 1. Each flow log entry strictly adheres to the specified format with space as the delimiter:
 `version account-id interface-id srcaddr dstaddr srcport dstport protocol packets bytes start end action log-status`
@@ -17,32 +16,40 @@
 
 5. Empty lines are ignored.
 
-6. Any line that does not conform to the valid log entry format will be logged to the console as an invalid log entry.
+6. Any line that does not conform to the valid log entry format will be ignored and logged to the console as an invalid log entry.
 
 ## Lookup Table File
-1. The lookup table file contains no headers.
+1. The lookup table file is in .txt format and contains no headers.
 
-2. There are no duplicate or conflicting `dstport` and `protocol` combinations in the lookup file. If duplicates exist, the first match will be used.
-
-3. If a unique `dstport` and `protocol` combination is mapped to two different tags, both tags are valid. For example:
+2. If a unique `dstport` and `protocol` combination is mapped to two different tags, both tags are valid. For example:
 ```
 80,tcp,tag1
 80,tcp,tag2
 ```
 Each matching log entry will affect both tag counts.
 
-4. Empty lines are ignored.
+4. The valid range for ports is 0 to 65535. Any entry with an out-of-range `dstport` value is ignored and logged to the console as an invalid lookup table entry.
 
-5. Only the `tag` field is case-sensitive in the lookup table. For example:
-These are treated as duplicate entries. However, `80,tcp,tag1` and `80,tcp,TAG1` are treated as unique entries.
+5. Protocol names in the lookup table file must follow the IANA shorthand naming convention (e.g., `tcp`, `udp`, etc.). If they do not match to any IANA protocol names, the log table entry is ignored and logged to console as invalid look table entry.
 
-6. Any `dstport` value out of range (0 to 65535) will be logged to the console as invalid.
+6. Empty lines are ignored.
 
-7. Protocol names must follow the IANA shorthand naming convention (e.g., `tcp`, `udp`, etc.). Any protocol name not in the correct format will be ignored and logged to the console.
+7. Only the `tag` field is case-sensitive in the lookup table. For example:
+```
+Example-1
+80,tcp,tag1
+80,TCP,tag1
+```
+```
+Example-2
+80,tcp,tag1
+80,tcp,TAG1
+```
+Entries in Example-1 are treated as duplicate entries. However, entries in Example-2 are treated as unique entries.
 
 ## Protocol Number Mapping
 1. The mapping of protocol numbers to names follows the IANA protocol number resource.
 
 2. Protocol names are defined using the shorthand convention listed on the IANA website [here](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
 
-3. If a protocol number does not have an entry in the IANA protocol number list, "unknown" will be used as the protocol name.
+3. "unknown" will be used as the protocol name if the protocol number does not have a corresponding protocol name listed on the IANA website.

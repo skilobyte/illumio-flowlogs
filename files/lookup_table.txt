@@ -10,4 +10,5 @@
 110,tcp,email 
 993,tcp,Email 
 143,tcp,email 
-
+7000,upd,email
+800000,upd,email
