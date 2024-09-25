@@ -6,10 +6,10 @@
 
 2. Compile the program using javac: `javac flowLogMetrics.java`
 
-3. Run the program with requried parameters: `java flowLogMetrics flowlog-filename lookup-filename`
+3. Run the program with required parameters: `java flowLogMetrics flowlog-filename lookup-filename`
 
 - flowlog-filename: The file containing the flow logs. (e.g., `files/flow_logs.txt`)
-- lookup-filename: The lookup table file for mapping destination ports and protocols to tags. (e.g., `files/lookup_table .txt`)
+- lookup-filename: The lookup table file for mapping destination ports and protocols to tags. (e.g., `files/lookup_table.txt`)
 
 ## Output 
 - The tag counts will be saved in: `output/tag.csv`
