@@ -1,4 +1,4 @@
-25,TCP,sv_P1 
+25,TCP, 
 68,udp,sv_P2 
 23,tcp,sv_P9
 23,tcp,sv_P9

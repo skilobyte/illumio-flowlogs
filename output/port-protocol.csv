@@ -1,6 +1,5 @@
 Port,Protocol,Count
 23,tcp,2
-993,tcp,1
 49154,wesp,1
 146,unknown,1
 49156,tcp,1

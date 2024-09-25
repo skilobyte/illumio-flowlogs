@@ -1,4 +1,3 @@
-
 import java.io.*;
 import java.util.*;
 
@@ -26,13 +25,15 @@ public class flowLogMetrics {
 
     public static void main(String[] args) throws IOException {
 
-        String flowLogFilePath = "files/flow_logs.txt"; 
-        String lookupTableFilePath = "files/lookup_table.txt"; 
+        if (args.length != 2) {
+            System.err.println("Usage: java flowLogMetrics <flowLogFilePath> <lookupTableFilePath>");
+            return;
+        }
+        String flowLogFilePath = args[0];
+        String lookupTableFilePath = args[1];
         String protocolListFilePath = "files/protocol_list.csv";
 
         flowLogMetrics tagger = new flowLogMetrics();
-
-        
 
         System.out.println("Intializaing Protocol Name Mapping...");
         tagger.initializeProtocolMap(protocolListFilePath);
@@ -49,20 +50,15 @@ public class flowLogMetrics {
         System.out.println("Finished");
     }
 
+    // Method to read IANA protocol number and Protocol Name from the csv file and store it in protocolMap data structure
     public void initializeProtocolMap(String fileName) {
         try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
             String line;
-            boolean firstLine = true;
             while ((line = reader.readLine()) != null) {
-
-                if (firstLine) { 
-                    firstLine = false;
-                    continue;
-                }
 
                 String[] parts = line.split(",");
                 if (parts.length < 2) {
-                    System.err.println("Invalid protocol list entry: " + line);
+                    System.err.println("Invalid Protocol Record: " + line);
                     continue;
                 }
 
@@ -78,6 +74,7 @@ public class flowLogMetrics {
         }
     }
 
+    // Method to read Look up table from file and store it in lookUpTable data structure
     public void loadLookupTable(String lookupTableFilePath) {
         try (BufferedReader reader = new BufferedReader(new FileReader(lookupTableFilePath))) {
             String line;
@@ -88,8 +85,8 @@ public class flowLogMetrics {
                 }
 
                 String[] parts = line.split(",");
-                if (parts.length < 3) {
-                    System.err.println("Invalid Lookup Table Entry: (Bad Format)" + line);
+                if (parts.length != 3 || parts[2].trim().isEmpty()) {
+                    System.err.println("Invalid Lookup Table Record: (Bad Format) " + line);
                     continue;
                 }
 
@@ -99,12 +96,12 @@ public class flowLogMetrics {
 
                 int convertedProtocolNum = strToInt(dstPort);
                 if (convertedProtocolNum < 0 || convertedProtocolNum > 65535) {
-                    System.err.println("Invalid Lookup Table Entry: (Invalid Protocol Number) " + line);
+                    System.err.println("Invalid Lookup Table Record: (Invalid Protocol Number) " + line);
                     continue;
                 }
 
                 if(!protocolMap.containsValue(protocol)){
-                    System.err.println("Invalid Log Table Entry: (Invalid Protocol Name) " + line);
+                    System.err.println("Invalid Lookup Table Record: (Invalid Protocol Name) " + line);
                 }
 
                 String portProtocolKey = dstPort + "," + protocol;
@@ -116,8 +113,8 @@ public class flowLogMetrics {
         }
     }
 
+    // Method to read logs from file and calculate occurances of each tag and port,protocol
     public void processFlowLogs(String flowLogFilePath) {
-
         Set<String> logStatusValues = new HashSet<>();
         logStatusValues.add("ok");
         logStatusValues.add("skipdata");
@@ -132,8 +129,8 @@ public class flowLogMetrics {
                 }
 
                 String[] parts = line.split(" ");
-                if (parts.length < 14 || !(parts[0].equals("2") && logStatusValues.contains(parts[13].toLowerCase()))) {
-                    System.err.println("Invalid Flow Log Entry: (Bad Format) " + line);
+                if (parts.length != 14 || !(parts[0].equals("2") && logStatusValues.contains(parts[13].toLowerCase()))) {
+                    System.err.println("Invalid Flow Log Record: (Bad Format) " + line);
                     continue;
                 }
 
@@ -141,8 +138,8 @@ public class flowLogMetrics {
                 String protocolNum = parts[7].trim();
                 
                 int convertedDstPort = strToInt(dstPort);
-                if(convertedDstPort < 0 || convertedDstPort >= 65535){
-                    System.err.println("Invalid Flow Log Entry: (Port Number Out of Range) " + line);
+                if(convertedDstPort < 0 || convertedDstPort > 65535){
+                    System.err.println("Invalid Flow Log Record: (Port Number Out of Range) " + line);
                     continue;
                 }
                 
@@ -152,7 +149,7 @@ public class flowLogMetrics {
                 }
 
                 if (convertedProtocolNum < 0 || convertedProtocolNum > 146) {
-                    System.err.println("Invalid Flow Log Entry: (Invalid Protocol Number) " + line);
+                    System.err.println("Invalid Flow Log Record: (Invalid Protocol Number) " + line);
                     continue;
                 }
 
