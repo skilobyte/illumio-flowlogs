@@ -97,7 +97,7 @@ public class flowLogMetrics {
 
                 int convertedProtocolNum = strToInt(dstPort);
                 if (convertedProtocolNum < 0 || convertedProtocolNum > 65535) {
-                    System.err.println("Invalid Lookup Table Record: (Invalid Protocol Number) " + line);
+                    System.err.println("Invalid Lookup Table Record: (Invalid Port Number) " + line);
                     continue;
                 }
 
@@ -214,7 +214,7 @@ public class flowLogMetrics {
 
     public void setupErrorLogging(String logFilePath) {
         try {
-            PrintStream errorLog = new PrintStream(new FileOutputStream(logFilePath, true));
+            PrintStream errorLog = new PrintStream(new FileOutputStream(logFilePath, false));
             System.setErr(errorLog);
         } catch (FileNotFoundException e) {
             System.out.println("Could not set up error logging to file: " + e.getMessage());

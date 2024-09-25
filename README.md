@@ -16,6 +16,21 @@
 - The counts of each port/protocol combination will be saved in: `output/port-protocol.csv`
 - Any invalid input lines encountered during processing will be recorded in: `output/error_log.txt`
 
+## Testing
+
+### The program was extensively tested using a variety of input data, including:
+
+- A log file of size 11MB containing 970,000 log records.
+- A lookup table with 10,000 records.
+
+### The tests included edge cases such as:
+
+- Log records with additional or missing fields, as well as records with inconsistent delimiters.
+- Log records containing out-of-range values for `dstport` and `protocol`.
+- Lookup table entries with missing or extra fields and inconsistent delimiters.
+- Lookup records with protocol names that did not match the IANA standard and out-of-range port numbers.
+
+
 ## Assumptions
 ### Protocol Number to Protocol Name translation
 1. Protocol names are defined using the protocol keywords listed on the [IANA website ](https://www.iana.org/assignments/protocol-numbers/protocol-numbers.xhtml).
